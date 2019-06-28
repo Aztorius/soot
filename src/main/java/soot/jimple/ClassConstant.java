@@ -134,6 +134,24 @@ public class ClassConstant extends Constant {
     return numDimensions > 0 ? ArrayType.v(baseType, numDimensions) : baseType;
   }
 
+  /**
+   * Gets an internal representation used in Java bytecode
+   */
+  public String toInternalString() {
+    String internal = value;
+    while (internal.startsWith("[")) {
+      internal = internal.substring(1);
+    }
+    if (internal.endsWith(";")) {
+      internal = internal.substring(0, internal.length() - 1);
+      if (internal.startsWith("L")) {
+        internal = internal.substring(1);
+      }
+    }
+
+    return internal;
+  }
+
   // In this case, equals should be structural equality.
   @Override
   public boolean equals(Object c) {
